@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Product } from "@/types/types";
-import { Colors } from "@/constants";
+import { Colors, defaultPizzaImage } from "@/constants";
 import { router } from "expo-router";
 
 type ProductListItemProps = {
@@ -18,9 +18,7 @@ export const ProductListItem = ({ product }: ProductListItemProps) => {
     <Pressable style={styles.container} onPress={onPress}>
       <Image
         source={{
-          uri:
-            product.image ||
-            "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png",
+          uri: product.image || defaultPizzaImage,
         }}
         style={styles.image}
       />

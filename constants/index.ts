@@ -28,3 +28,6 @@ export const Colors = {
 };
 
 export const pizzaSizes: PizzaSize[] = ["S", "M", "L", "XL"];
+
+export const defaultPizzaImage =
+  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png";
