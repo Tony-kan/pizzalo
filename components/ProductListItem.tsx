@@ -1,16 +1,21 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Product } from "@/types/types";
 import { Colors } from "@/constants";
+import { router } from "expo-router";
 
 type ProductListItemProps = {
   product: Product;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {
+  const onPress = () => {
+    // console.log(JSON.stringify(product, null, 2));
+    router.push(`/product/${product.id}`);
+  };
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <Image
         source={{
           uri:
@@ -20,8 +25,8 @@ export const ProductListItem = ({ product }: ProductListItemProps) => {
         style={styles.image}
       />
       <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.price}>{product.price.toFixed(2)}</Text>
-    </View>
+      <Text style={styles.price}>{`$ ${product.price.toFixed(2)}`}</Text>
+    </Pressable>
   );
 };
 
@@ -47,5 +52,6 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     fontWeight: "bold",
     marginTop: "auto",
+    marginLeft: 10,
   },
 });
