@@ -65,7 +65,7 @@ const create = () => {
       return;
     }
 
-    console.warn("Creating dish");
+    console.warn("Updating dish");
     setName("");
     setPrice("");
     setImage("");
@@ -75,7 +75,9 @@ const create = () => {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      // mediaTypes: ImagePicker.MediaTypeOptions.All,
+      // mediaTypes:ImagePicker.MediaTypeOptions.
+      mediaTypes: ["images", "videos"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -111,6 +113,7 @@ const create = () => {
         source={{ uri: image || defaultPizzaImage }}
         style={styles.image}
       />
+
       <Text onPress={pickImage} style={styles.textButton}>
         Select Image
       </Text>

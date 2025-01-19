@@ -7,21 +7,22 @@ import { PizzaSize } from "@/types/types";
 import { pizzaSizes } from "@/constants";
 import Button from "@/components/Button";
 
-const product = products[0];
+// const product = products[0];
 
 const ProductDetails = () => {
   const { id } = useLocalSearchParams();
   const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
 
+  const product = products.find((product) => product.id.toString() === id);
   const addToCart = () => {
     if (!product) return;
     console.warn("Add to cart");
   };
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: product.name }} />
+      <Stack.Screen options={{ title: product?.name }} />
       <Image
-        source={{ uri: product.image }}
+        source={{ uri: product?.image }}
         style={styles.image}
         resizeMode="contain"
       />
@@ -49,7 +50,7 @@ const ProductDetails = () => {
           </Pressable>
         ))}
       </View>
-      <Text style={styles.price}>Price : ${product.price.toFixed(2)}</Text>
+      <Text style={styles.price}>Price : ${product?.price.toFixed(2)}</Text>
       <Button text="Add to Cart" onPress={addToCart} />
     </View>
   );

@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import Button from "@/components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -14,10 +14,31 @@ const index = () => {
         padding: 10,
       }}
     >
-      <Link href="/(root)/(user)" asChild>
+      <Stack.Screen options={{ title: "Home" }} />
+      <Link
+        style={{
+          marginVertical: 10,
+          backgroundColor: "blue",
+          padding: 10,
+          borderRadius: 10,
+          color: "white",
+        }}
+        href="/(root)/(user)"
+        asChild
+      >
         <Button text="User" />
       </Link>
-      <Link href={"/(root)/(admin)"} asChild>
+      <Link
+        style={{
+          marginVertical: 10,
+          backgroundColor: "blue",
+          padding: 10,
+          borderRadius: 10,
+          color: "white",
+        }}
+        href={"/(root)/(admin)"}
+        asChild
+      >
         <Button text="Admin" />
       </Link>
     </View>

@@ -1,28 +1,9 @@
-import {
-  ScrollView,
-  View,
-  Image,
-  StyleSheet,
-  Text,
-  Platform,
-  FlatList,
-} from "react-native";
+import { View, Text } from "react-native";
+import React from "react";
+import { Redirect } from "expo-router";
 
-import { products } from "@/assets/data";
-import { Colors } from "@/constants";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ProductListItem } from "@/components/ProductListItem";
+const AdminLayout = () => {
+  return <Redirect href={"/(root)/(user)/menu"} />;
+};
 
-export default function HomeScreen() {
-  return (
-    <SafeAreaView>
-      <FlatList
-        data={products}
-        renderItem={({ item }) => <ProductListItem product={item} />}
-        numColumns={2}
-        contentContainerStyle={{ gap: 10, padding: 10 }}
-        columnWrapperStyle={{ gap: 10 }}
-      />
-    </SafeAreaView>
-  );
-}
+export default AdminLayout;
