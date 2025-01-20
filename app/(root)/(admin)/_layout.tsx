@@ -1,8 +1,14 @@
-import { Tabs } from "expo-router";
+import { useAuth } from "@/providers/AuthProvider";
+import { Redirect, Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 
 export default function TabLayout() {
+  const { profile } = useAuth();
+
+  if (!profile || profile.group !== "ADMIN") {
+    return <Redirect href="/" />;
+  }
   return (
     <Tabs
       screenOptions={{
