@@ -1,5 +1,6 @@
 import AuthProvider from "@/providers/AuthProvider";
 import { CartProvider } from "@/providers/CartProvider";
+import Queryprovider from "@/providers/QueryProvider";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -21,16 +22,18 @@ export default function RootLayout() {
   }
   return (
     <>
-      <CartProvider>
-        <AuthProvider>
-          <Stack>
-            <Stack.Screen name="(root)" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </AuthProvider>
-      </CartProvider>
+      <AuthProvider>
+        <Queryprovider>
+          <CartProvider>
+            <Stack>
+              <Stack.Screen name="(root)" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </CartProvider>
+        </Queryprovider>
+      </AuthProvider>
     </>
   );
 }
