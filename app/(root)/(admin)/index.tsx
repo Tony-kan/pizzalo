@@ -3,7 +3,7 @@ import React from "react";
 import { Redirect } from "expo-router";
 
 const AdminLayout = () => {
-  return <Redirect href={"/(root)/(user)/menu"} />;
+  return <Redirect href={"/(root)/(admin)/menu"} />;
 };
 
 export default AdminLayout;
