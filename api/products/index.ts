@@ -78,6 +78,19 @@ export const useInsertProduct = () => {
   });
 };
 
+/**
+ * Custom hook to update a product in the Supabase database.
+ *
+ * This hook uses a mutation to update a product in the "products" table
+ * in Supabase. It takes product data (including "id") as input and attempts
+ * to update the corresponding product in the database. On successful update,
+ * it invalidates the "products" and "product" (for that specific product ID)
+ * query caches to ensure fresh data. If there's an error during update,
+ * it logs the error to the console.
+ *
+ * @returns A mutation object from react-query's useMutation hook, which
+ * provides methods to trigger the mutation and track its status.
+ */
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -94,6 +107,22 @@ export const useUpdateProduct = () => {
     async onSuccess(_, { id }) {
       await queryClient.invalidateQueries(["products"]);
       await queryClient.invalidateQueries(["product", id]);
+    },
+    onError(error: any) {
+      console.error(error);
+    },
+  });
+};
+
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    async mutationFn(id: string) {
+      const { error } = await supabase.from("products").delete().eq("id", id);
+      if (error) throw new Error(error.message);
+    },
+    async onSuccess() {
+      await queryClient.invalidateQueries(["products"]);
     },
     onError(error: any) {
       console.error(error);
