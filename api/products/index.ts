@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
  * @returns An array of `Product` objects, or an error if something went wrong.
  */
 export const useProductList = () => {
-  return useQuery<Product[]>({
+  return useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const { data, error } = await supabase.from("products").select("*");
@@ -27,7 +27,7 @@ export const useProductList = () => {
  * @returns A `Product` object, or an error if something went wrong.
  */
 export const useProduct = (id: string) => {
-  return useQuery<Product>({
+  return useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -58,7 +58,7 @@ export const useInsertProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    async mutationFn(data: Omit<Product, "id">) {
+    async mutationFn(data: any) {
       const { error } = await supabase.from("products").insert({
         name: data.name,
         price: data.price,
@@ -69,7 +69,7 @@ export const useInsertProduct = () => {
     },
 
     async onSuccess() {
-      await queryClient.invalidateQueries(["products"]);
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
     },
 
     onError(error: any) {
@@ -94,19 +94,24 @@ export const useInsertProduct = () => {
 export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    async mutationFn({ id, ...update }: Product) {
-      const { data, error } = await supabase
+    async mutationFn(data: any) {
+      const { data: updatedProduct, error } = await supabase
         .from("products")
-        .update(update)
-        .eq("id", id)
-        .select();
+        .update({
+          name: data.name,
+          price: data.price,
+          image: data.image,
+        })
+        .eq("id", data.id)
+        .select()
+        .single();
       if (error) throw new Error(error.message);
 
       return data;
     },
     async onSuccess(_, { id }) {
-      await queryClient.invalidateQueries(["products"]);
-      await queryClient.invalidateQueries(["product", id]);
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
+      await queryClient.invalidateQueries({ queryKey: ["product", id] });
     },
     onError(error: any) {
       console.error(error);
@@ -122,7 +127,7 @@ export const useDeleteProduct = () => {
       if (error) throw new Error(error.message);
     },
     async onSuccess() {
-      await queryClient.invalidateQueries(["products"]);
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError(error: any) {
       console.error(error);

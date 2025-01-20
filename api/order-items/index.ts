@@ -1,4 +1,5 @@
 import { supabase } from "@/supabase/supabase";
+import { InsertTables } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useInsertOrderItem = () => {
@@ -15,7 +16,7 @@ export const useInsertOrderItem = () => {
       return newProduct;
     },
     async onSuccess() {
-      await queryClient.invalidateQueries(["order_items"]);
+      await queryClient.invalidateQueries({ queryKey: ["order_items"] });
     },
     onError(error: any) {
       console.error(error);
