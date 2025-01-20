@@ -19,9 +19,9 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
-      <Tabs.Screen name="order/[id]" options={{ href: null }} />
+      {/* <Tabs.Screen name="order/[id]" options={{ href: null }} /> */}
       <Tabs.Screen
-        name="menu/index"
+        name="menu"
         options={{
           title: "Menu",
           tabBarIcon: ({ color }) => "",
@@ -38,14 +38,14 @@ export default function TabLayout() {
         }}
       />
 
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="menu/create"
         options={{
           title: "Create",
           tabBarIcon: ({ color }) => "",
           // <IconSymbol size={28} name="paperplane.fill" color={color} />
         }}
-      />
+      /> */}
     </Tabs>
   );
 }
