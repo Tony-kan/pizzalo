@@ -12,6 +12,7 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
 
   async function signInWithEmail() {
+    console.log("email", email, "password", password);
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -42,7 +43,11 @@ const SignInScreen = () => {
         secureTextEntry
       />
 
-      <Button text="Sign in" />
+      <Button
+        text={loading ? "logging in ..." : "Sign in"}
+        disabled={loading}
+        onPress={signInWithEmail}
+      />
       <Link href="/sign-up" style={styles.textButton}>
         Create an account
       </Link>

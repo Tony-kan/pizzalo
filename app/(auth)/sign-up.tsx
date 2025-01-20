@@ -42,7 +42,11 @@ const SignUpScreen = () => {
         secureTextEntry
       />
 
-      <Button text="Create account" />
+      <Button
+        text={loading ? "Creatign account ... " : "Create account"}
+        disabled={loading}
+        onPress={signUpWithEmail}
+      />
       <Link href="/sign-in" style={styles.textButton}>
         Sign in
       </Link>

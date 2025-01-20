@@ -39,7 +39,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         // fetch profile
         const { data } = await supabase
           .from("profiles")
-          .select()
+          .select("*")
           .eq("id", session.user.id)
           .single();
         setProfile(data || null);
@@ -59,7 +59,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         profile,
         isLoading,
-        isAdmin: profile?.group === "admin",
+        isAdmin: profile?.group === "ADMIN",
       }}
     >
       {children}
