@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   if (error) return <Text>Failed to fetch products</Text>;
 
-  // console.log("backend products : ", JSON.stringify(data, null, 2));
+  console.log("backend products : ", JSON.stringify(data, null, 2));
   const onLogout = async () => {
     await supabase.auth.signOut();
   };

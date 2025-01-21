@@ -1,4 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +13,7 @@ import { products } from "@/assets/data";
 import { PizzaSize } from "@/types/types";
 import { pizzaSizes } from "@/constants";
 import Button from "@/components/Button";
+import { useProduct } from "@/api/products";
 
 // const product = products[0];
 
@@ -13,7 +21,18 @@ const ProductDetails = () => {
   const { id } = useLocalSearchParams();
   const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
 
-  const product = products.find((product) => product.id.toString() === id);
+  const { data: product, isLoading, error } = useProduct(id as string);
+
+  if (isLoading) return <ActivityIndicator />;
+
+  if (error)
+    return (
+      <Text>
+        Error : failed to fetch Product details for product with id : {id}
+      </Text>
+    );
+
+  // const product = products.find((product) => product.id.toString() === id);
   const addToCart = () => {
     if (!product) return;
     console.warn("Add to cart");

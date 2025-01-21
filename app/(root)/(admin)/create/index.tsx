@@ -3,7 +3,18 @@ import React, { useState } from "react";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import Button from "@/components/Button";
+import * as FileSystem from "expo-file-system";
 import { Colors, defaultPizzaImage } from "@/constants";
+import { supabase } from "@/supabase/supabase";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  useDeleteProduct,
+  useInsertProduct,
+  useProduct,
+  useUpdateProduct,
+} from "@/api/products";
+import { randomUUID } from "expo-crypto";
+import { decode } from "base64-arraybuffer";
 
 const create = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -12,10 +23,16 @@ const create = () => {
   const [errors, setErrors] = useState("");
 
   const { id: idString } = useLocalSearchParams();
-  const id = parseFloat(
-    typeof idString === "string" ? idString : idString?.[0]
-  );
+  // const id = parseFloat(
+  //   typeof idString === "string" ? idString : idString?.[0]
+  // );
   const isUpdating = !!idString;
+  const id = idString || "";
+
+  const { mutate: insertProduct } = useInsertProduct();
+  const { mutate: updateProduct } = useUpdateProduct();
+  const { data: updatingProduct } = useProduct(id as string);
+  const { mutate: deleteProduct } = useDeleteProduct();
 
   const resetFields = () => {
     setName("");
@@ -53,23 +70,43 @@ const create = () => {
       return;
     }
 
-    console.warn("Creating dish");
-    setName("");
-    setPrice("");
-    setImage("");
-    router.back();
+    insertProduct(
+      {
+        name,
+        price: parseFloat(price),
+        image,
+      },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+          console.warn("Product created");
+        },
+      }
+    );
+
+    // console.warn("Creating dish");
+    // setName("");
+    // setPrice("");
+    // setImage("");
   };
 
-  const onUpdate = () => {
+  const onUpdate = async () => {
     if (!validateInput()) {
       return;
     }
+    const imagePath = await uploadImage();
 
-    console.warn("Updating dish");
-    setName("");
-    setPrice("");
-    setImage("");
-    router.back();
+    updateProduct(
+      { id, name, price: parseFloat(price), image: imagePath },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+          console.warn("Updating pizza");
+        },
+      }
+    );
   };
 
   const pickImage = async () => {
@@ -103,10 +140,39 @@ const create = () => {
     ]);
   };
 
+  const uploadImage = async () => {
+    if (!image?.startsWith("file://")) {
+      return;
+    }
+
+    const base64 = await FileSystem.readAsStringAsync(image, {
+      encoding: "base64",
+    });
+    const filePath = `${randomUUID()}.png`;
+    const contentType = "image/png";
+
+    const { data, error } = await supabase.storage
+      .from("product-images")
+      .upload(filePath, decode(base64), { contentType });
+
+    console.log(error);
+
+    if (data) {
+      return data.path;
+    }
+  };
+
+  const onLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Stack.Screen
-        options={{ title: isUpdating ? "Update Product" : "Create Product" }}
+        options={{
+          title: isUpdating ? "Update Product" : "Create Product",
+          headerRight: () => <Text onPress={onLogout}>Logout</Text>,
+        }}
       />
 
       <Image
@@ -142,7 +208,7 @@ const create = () => {
           Delete
         </Text>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

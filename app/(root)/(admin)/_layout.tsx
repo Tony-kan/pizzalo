@@ -51,14 +51,13 @@ export default function TabLayout() {
         }}
       />
 
-      {/* <Tabs.Screen
-        name="menu/create"
+      <Tabs.Screen
+        name="create"
         options={{
           title: "Create",
-          tabBarIcon: ({ color }) => "",
-          // <IconSymbol size={28} name="paperplane.fill" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="edit" color={color} />,
         }}
-      /> */}
+      />
     </Tabs>
   );
 }

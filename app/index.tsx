@@ -14,6 +14,8 @@ const index = () => {
 
   if (!isAdmin) return <Redirect href="/(root)/(user)" />;
 
+  console.log("isAdmin", isAdmin);
+
   return (
     <View
       style={{
