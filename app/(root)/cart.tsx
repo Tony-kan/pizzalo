@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import { StatusBar } from "expo-status-bar";
 
 const cart = () => {
-  const { items, total } = useCart();
+  const { items, total, checkout } = useCart();
   return (
     <View style={{ padding: 10 }}>
       <FlatList
@@ -16,10 +16,10 @@ const cart = () => {
       />
 
       <Text style={{ marginTop: 20, fontSize: 20, fontWeight: "500" }}>
-        Total: ${total}
+        Total: ${total.toFixed(2)}
       </Text>
       {/* <Button onPress={checkout} text="Checkout" /> */}
-      <Button text="Checkout" />
+      <Button text="Checkout" onPress={checkout} />
 
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>

@@ -7,13 +7,15 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { products } from "@/assets/data";
 import { PizzaSize } from "@/types/types";
-import { pizzaSizes } from "@/constants";
+import { Colors, pizzaSizes } from "@/constants";
 import Button from "@/components/Button";
 import { useProduct } from "@/api/products";
+import { useCart } from "@/providers/CartProvider";
+import { FontAwesome } from "@expo/vector-icons";
 
 // const product = products[0];
 
@@ -22,6 +24,7 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
 
   const { data: product, isLoading, error } = useProduct(id as string);
+  const { addItem } = useCart();
 
   if (isLoading) return <ActivityIndicator />;
 
@@ -35,11 +38,42 @@ const ProductDetails = () => {
   // const product = products.find((product) => product.id.toString() === id);
   const addToCart = () => {
     if (!product) return;
+
+    addItem(product, selectedSize);
+    router.push("/cart");
     console.warn("Add to cart");
   };
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: product?.name }} />
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="arrow-left"
+                  size={25}
+                  // color={Colors.light.tint}
+                  style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
+          ),
+          title: product?.name,
+          headerRight: () => (
+            <Pressable onPress={() => router.push("/cart")}>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="shopping-cart"
+                  size={25}
+                  color={Colors.light.tint}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
+          ),
+        }}
+      />
       <Image
         source={{ uri: product?.image }}
         style={styles.image}
