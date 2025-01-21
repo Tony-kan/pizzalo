@@ -13,7 +13,7 @@ export type Enums<T extends keyof Database["public"]["Enums"]> =
   Database["public"]["Enums"][T];
 
 export type Product = {
-  id: number;
+  id: string;
   image: string | null;
   name: string;
   price: number;
@@ -39,7 +39,7 @@ export const OrderStatusList: OrderStatus[] = [
 export type OrderStatus = "New" | "Cooking" | "Delivering" | "Delivered";
 
 export type Order = {
-  id: number;
+  id: string;
   created_at: string;
   total: number;
   user_id: string;

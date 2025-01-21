@@ -6,6 +6,7 @@ import {
   Text,
   Platform,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 import { products } from "@/assets/data";
@@ -14,8 +15,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ProductListItem } from "@/components/ProductListItem";
 import { Stack } from "expo-router";
 import { supabase } from "@/supabase/supabase";
+import { useProductList } from "@/api/products";
 
 export default function HomeScreen() {
+  const { data, isLoading, error } = useProductList();
+
+  if (isLoading) return <ActivityIndicator />;
+
+  if (error) return <Text>Failed to fetch products</Text>;
   const onLogout = async () => {
     await supabase.auth.signOut();
   };
@@ -29,7 +36,7 @@ export default function HomeScreen() {
       />
 
       <FlatList
-        data={products}
+        data={data}
         renderItem={({ item }) => <ProductListItem product={item} />}
         numColumns={2}
         contentContainerStyle={{ gap: 10, padding: 10 }}
