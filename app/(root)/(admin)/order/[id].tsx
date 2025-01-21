@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { orders } from "@/assets/data";
 import OrderListItem from "@/components/OrderListItem";
@@ -6,17 +13,33 @@ import OrderItemListItem from "@/components/OrderItemListItem";
 import { Colors } from "@/constants";
 import React from "react";
 import { OrderStatusList } from "@/types/types";
+import { useOrderDetails, useUpdateOrder } from "@/api/orders";
+import { notifyUserAboutOrderUpdate } from "@/lib/notification";
 
 const OrderDetail = () => {
   const { id } = useLocalSearchParams();
 
-  const order = orders.find((o) => o.id.toString() === id);
+  // const order = orders.find((o) => o.id.toString() === id);
+  const { data: order, isLoading, error } = useOrderDetails(id as string);
+  const { mutate: updateOrder } = useUpdateOrder();
+
+  const updateStatus = async (status: string) => {
+    await updateOrder({
+      id: id as string,
+      updatedFields: { status },
+    });
+    if (order) {
+      await notifyUserAboutOrderUpdate({ ...order, status });
+    }
+  };
+
+  if (isLoading) return <ActivityIndicator />;
+
+  if (error) return <Text>{error.message}</Text>;
 
   if (!order) {
     return <Text>Order not found!</Text>;
   }
-
-  const updateStatus = async (status: string) => {};
 
   return (
     <>

@@ -92,7 +92,7 @@ export const useUpdateOrder = () => {
       id: string;
       updatedFields: UpdateTables<"orders">;
     }) {
-      const { data: upddatedOrder, error } = await supabase
+      const { data: updatedOrder, error } = await supabase
         .from("orders")
         .update(updatedFields)
         .eq("id", id)
@@ -101,7 +101,7 @@ export const useUpdateOrder = () => {
 
       if (error) throw new Error(error.message);
 
-      return upddatedOrder;
+      return updatedOrder;
     },
     async onSuccess(_, { id }) {
       await queryClient.invalidateQueries({ queryKey: ["orders"] });
