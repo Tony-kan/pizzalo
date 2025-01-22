@@ -21,12 +21,13 @@ const OrderListItem = ({ order }: OrderListItemProps) => {
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <View>
+      <View style={{ flex: 1 }}>
         <Text style={styles.title}>Order #{order.id}</Text>
-        <Text style={styles.time}>{dayjs(order.created_at).fromNow()}</Text>
+        <View style={styles.innerContainer}>
+          <Text style={styles.time}>{dayjs(order.created_at).fromNow()}</Text>
+          <Text style={styles.status}>{order.status}</Text>
+        </View>
       </View>
-
-      <Text style={styles.status}>{order.status}</Text>
     </Pressable>
   );
 };
@@ -36,13 +37,23 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
     fontWeight: "bold",
     marginVertical: 5,
+    marginTop: 16,
+  },
+  innerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 14,
+    marginBottom: 4,
+    paddingRight: 16,
+    paddingLeft: 16,
   },
   time: {
     color: "gray",

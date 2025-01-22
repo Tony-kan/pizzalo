@@ -43,8 +43,7 @@ export type Order = {
   created_at: string;
   total: number;
   user_id: string;
-  status: OrderStatus;
-
+  status: OrderStatus | string;
   order_items?: OrderItem[];
 };
 
@@ -52,8 +51,8 @@ export type OrderItem = {
   id: string;
   product_id: string;
   products: Product;
-  order_id: number;
-  size: PizzaSize;
+  order_id: string;
+  size: PizzaSize | string;
   quantity: number;
 };
 

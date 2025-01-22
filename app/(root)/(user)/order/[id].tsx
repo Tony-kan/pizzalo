@@ -27,6 +27,10 @@ const OrderDetail = () => {
     return <Text>Order not found!</Text>;
   }
 
+  console.log("selected Order id: ", id);
+
+  console.log("selected Order: ", order);
+
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: `Order #${order.id}` }} />

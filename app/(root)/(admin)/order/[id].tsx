@@ -41,6 +41,10 @@ const OrderDetail = () => {
     return <Text>Order not found!</Text>;
   }
 
+  console.log("selected Order id: ", id);
+
+  console.log("selected Order: ", order);
+
   return (
     <>
       <View style={{ padding: 10, gap: 20, flex: 1 }}>
