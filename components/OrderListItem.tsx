@@ -5,6 +5,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import { Link, router, useSegments } from "expo-router";
 import { Order } from "@/types/types";
+import { useAuth } from "@/providers/AuthProvider";
 
 dayjs.extend(relativeTime);
 
@@ -14,9 +15,18 @@ type OrderListItemProps = {
 
 const OrderListItem = ({ order }: OrderListItemProps) => {
   const segments = useSegments();
+  const {isAdmin} = useAuth()
 
   const onPress = () => {
+
+    if (isAdmin){
+      router.push(`/order/${order.id}`);
+    }
     router.push(`/order/${order.id}`);
+
+    
+
+
   };
 
   return (
