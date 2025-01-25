@@ -10,6 +10,8 @@ type CartListItemProps = {
 };
 const CartListItem = ({ cartItem }: CartListItemProps) => {
   const { updateQuantity } = useCart();
+
+  console.log("cartItem :::: ", JSON.stringify(cartItem, null, 2));
   return (
     <View style={styles.container}>
       <Image
@@ -21,7 +23,10 @@ const CartListItem = ({ cartItem }: CartListItemProps) => {
         <Text style={styles.title}>{cartItem.product.name}</Text>
         <View style={styles.subtitleContainer}>
           <Text style={styles.price}>
-            $ {cartItem.product.price.toFixed(2)}
+            {/* $ {cartItem.product.price.toFixed(2)} */}${" "}
+            {cartItem.product?.sizes
+              .find((s) => s.size === cartItem.size)
+              ?.price.toFixed(2)}
           </Text>
           <Text>Size : {cartItem.size}</Text>
         </View>

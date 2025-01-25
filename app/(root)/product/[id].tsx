@@ -21,10 +21,12 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const ProductDetails = () => {
   const { id } = useLocalSearchParams();
-  const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
+  const [selectedSize, setSelectedSize] = useState<string | null>("M");
 
   const { data: product, isLoading, error } = useProduct(id as string);
   const { addItem } = useCart();
+
+  // console.log("Fetched pizza products : ", JSON.stringify(product, null, 2));
 
   if (isLoading) return <ActivityIndicator />;
 
@@ -37,7 +39,7 @@ const ProductDetails = () => {
 
   // const product = products.find((product) => product.id.toString() === id);
   const addToCart = () => {
-    if (!product) return;
+    if (!product || !selectedSize) return;
 
     addItem(product, selectedSize);
     router.push("/cart");
@@ -81,29 +83,36 @@ const ProductDetails = () => {
       />
       <Text style={styles.subtitle}>Select Size</Text>
       <View style={styles.sizes}>
-        {pizzaSizes.map((size) => (
-          <Pressable
-            key={size}
-            onPress={() => setSelectedSize(size)}
-            style={[
-              styles.size,
-              {
-                backgroundColor: size === selectedSize ? "gainsboro" : "white",
-              },
-            ]}
-          >
-            <Text
+        {product?.sizes.map(
+          (size: { id: string; size: string; price: number }) => (
+            <Pressable
+              key={size.id}
+              onPress={() => setSelectedSize(size?.size)}
               style={[
-                styles.sizeText,
-                { color: size === selectedSize ? "black" : "gray" },
+                styles.size,
+                {
+                  backgroundColor:
+                    size.size === selectedSize ? "gainsboro" : "white",
+                },
               ]}
             >
-              {size}
-            </Text>
-          </Pressable>
-        ))}
+              <Text
+                style={[
+                  styles.sizeText,
+                  { color: size === selectedSize ? "black" : "gray" },
+                ]}
+              >
+                {size?.size}
+              </Text>
+            </Pressable>
+          )
+        )}
       </View>
-      <Text style={styles.price}>Price : ${product?.price.toFixed(2)}</Text>
+      {/* <Text style={styles.price}>Price : ${product?.price.toFixed(2)}</Text> */}
+      <Text style={styles.price}>
+        Price: $
+        {product?.sizes.find((s) => s.size === selectedSize)?.price.toFixed(2)}
+      </Text>
       <Button text="Add to Cart" onPress={addToCart} />
     </View>
   );

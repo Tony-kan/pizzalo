@@ -106,7 +106,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     insertOrderItem(orderItems, {
       onSuccess() {
         clearCart();
-        router.push(`/(root)/(user)/order/${order.id}`);
+        router.push(`/order/${order.id}`);
       },
     });
   };

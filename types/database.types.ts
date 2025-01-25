@@ -143,6 +143,38 @@ export type Database = {
         }
         Relationships: []
       }
+      sizes: {
+        Row: {
+          created_at: string
+          id: string
+          price: number
+          product_id: string
+          size: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          price?: number
+          product_id?: string
+          size?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          price?: number
+          product_id?: string
+          size?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sizes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
