@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { CartItem } from "@/types/types";
+import { CartItem, ProductProps } from "@/types/types";
 import { useCart } from "@/providers/CartProvider";
 import { Colors, defaultPizzaImage } from "@/constants";
 import { FontAwesome } from "@expo/vector-icons";
@@ -11,7 +11,7 @@ type CartListItemProps = {
 const CartListItem = ({ cartItem }: CartListItemProps) => {
   const { updateQuantity } = useCart();
 
-  console.log("cartItem :::: ", JSON.stringify(cartItem, null, 2));
+  // console.log("cartItem :::: ", JSON.stringify(cartItem, null, 2));
   return (
     <View style={styles.container}>
       <Image
@@ -25,7 +25,7 @@ const CartListItem = ({ cartItem }: CartListItemProps) => {
           <Text style={styles.price}>
             {/* $ {cartItem.product.price.toFixed(2)} */}${" "}
             {cartItem.product?.sizes
-              .find((s) => s.size === cartItem.size)
+              ?.find((s) => s.size === cartItem.size)
               ?.price.toFixed(2)}
           </Text>
           <Text>Size : {cartItem.size}</Text>

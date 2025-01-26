@@ -1,5 +1,5 @@
 import { supabase } from "@/supabase/supabase";
-import { Product } from "@/types/types";
+import { ProductProps } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 /**

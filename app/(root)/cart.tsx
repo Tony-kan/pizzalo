@@ -7,7 +7,7 @@ import { StatusBar } from "expo-status-bar";
 
 const cart = () => {
   const { items, total, checkout } = useCart();
-  console.log("cart items", JSON.stringify(items, null, 2));
+  // console.log("cart items", JSON.stringify(items, null, 2));
   return (
     <View style={{ padding: 10 }}>
       <FlatList

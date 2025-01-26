@@ -37,7 +37,11 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
   const { mutate: insertOrder } = useInsertOrder();
   const { mutate: insertOrderItem } = useInsertOrderItem();
 
-  const addItem = (product: Product, size: CartItem["size"]) => {
+  const addItem = (
+    product: Product,
+    size: CartItem["size"],
+    price?: number
+  ) => {
     // if already in cart, icrement quantity
     const existingItem = items.find(
       (item) => item.product === product && item.size === size
@@ -52,6 +56,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
       product,
       product_id: product.id,
       size,
+      price,
       quantity: 1,
     };
 
@@ -71,8 +76,13 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     );
   };
 
+  // console.log("(providers)cart items", JSON.stringify(items, null, 2));
+
   const total = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) =>
+      sum +
+      (item.product?.sizes?.find((s) => s.size === item.size)?.price ?? 0) *
+        item.quantity,
     0
   );
 

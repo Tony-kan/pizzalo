@@ -12,21 +12,28 @@ export type UpdateTables<T extends keyof Database["public"]["Tables"]> =
 export type Enums<T extends keyof Database["public"]["Enums"]> =
   Database["public"]["Enums"][T];
 
-export type Product = {
+export type sizes = {
+  size: PizzaSize;
+  price: number;
+};
+
+export type ProductProps = {
   id: string;
   image: string | null;
   name: string;
   price: number;
+  size?: PizzaSize;
+  sizes?: sizes[];
 };
 
 export type PizzaSize = "S" | "M" | "L" | "XL";
 
 export type CartItem = {
   id: string;
-  product: Product;
+  product: ProductProps;
   product_id: string;
   size: PizzaSize;
-  price: number;
+  price?: number;
   // sizes: { size: PizzaSize; price: number }[];
   quantity: number;
 };
@@ -52,7 +59,7 @@ export type Order = {
 export type OrderItem = {
   id: string;
   product_id: string;
-  products: Product;
+  products: ProductProps;
   order_id: string;
   size: PizzaSize | string;
   quantity: number;
