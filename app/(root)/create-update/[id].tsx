@@ -185,9 +185,7 @@ const CreateUpdate = () => {
     }
   };
 
-  const onLogout = async () => {
-    await supabase.auth.signOut();
-  };
+  
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen
