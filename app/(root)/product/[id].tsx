@@ -55,7 +55,7 @@ const ProductDetails = () => {
                 <FontAwesome
                   name="arrow-left"
                   size={25}
-                  // color={Colors.light.tint}
+                  color={Colors.light.tint}
                   style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -63,16 +63,28 @@ const ProductDetails = () => {
           ),
           title: product?.name,
           headerRight: () => (
-            <Pressable onPress={() => router.push("/cart")}>
-              {({ pressed }) => (
-                <FontAwesome
-                  name="shopping-cart"
-                  size={25}
-                  color={Colors.light.tint}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
+            <>
+              <Pressable onPress={() => router.push(`/create-update/${id}`)}>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+              <Pressable onPress={() => router.push("/cart")}>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="shopping-cart"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </>
           ),
         }}
       />
@@ -99,7 +111,7 @@ const ProductDetails = () => {
               <Text
                 style={[
                   styles.sizeText,
-                  { color: size === selectedSize ? "black" : "gray" },
+                  { color: size.size === selectedSize ? "black" : "gray" },
                 ]}
               >
                 {size?.size}
