@@ -62,6 +62,41 @@ Make sure you have the following installed on your machine:
 
 **Cloning the Repository**
 
-```bash
+````bash
 git clone https://github.com/Tony-kan/pizzalo.git
 cd pizzalo
+
+
+**Installation**
+
+```bash
+npm install
+````
+
+**Set Up Environment Variables**
+
+Create a new file named `.env.local` in the root of your project and add the following content:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=https://your-supabase-url.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+Replace the values with your actual Supabase credentials. You can obtain these credentials by signing up & creating a
+new project on the [Supabase website](https://supabase.io).
+
+**Start the app**
+
+```bash
+ npx expo start
+```
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **app** directory. This project
+uses [file-based routing](https://docs.expo.dev/router/introduction).
