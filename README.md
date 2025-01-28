@@ -1,50 +1,67 @@
-# Welcome to your Expo app 👋
+<div align="center">
+  <br />
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+  <br />
+  <div>
+    <img src="https://img.shields.io/badge/-Expo-black?style=for-the-badge&logoColor=white&logo=expo&color=000020" alt="expo" />
+    <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
+    <img src="https://img.shields.io/badge/-Supabase-black?style=for-the-badge&logoColor=white&logo=supabase&color=3ECF8E" alt="supabase" />
+  </div>
 
-## Get started
+<h3 align="center">Pizzalo App</h3>
 
-1. Install dependencies
+</div>
 
-   ```bash
-   npm install
-   ```
+## 📋 <a name="table">Table of Contents</a>
 
-2. Start the app
+1. 🤖 [Introduction](#introduction)
+2. ⚙️ [Tech Stack](#tech-stack)
+3. 🔋 [Features](#features)
+4. 🤸 [Quick Start](#quick-start)
 
-   ```bash
-    npx expo start
-   ```
+## <a name="introduction">🤖 Introduction</a>
 
-In the output, you'll find options to open the app in a
+Pizzalo, a mobile application for pizza lovers, featuring dynamic pizza listings and order management. Designed with modern tools like Expo SDK 52, Supabase, and TypeScript for a seamless and scalable experience.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## <a name="tech-stack">⚙️ Tech Stack</a>
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Expo
+- React Native
+- TypeScript
+- Supabase
 
-## Get a fresh project
+## <a name="features">🔋 Features</a>
 
-When you're ready, run:
+👉 **Onboarding**: A smooth onboarding experience for new users.
+
+👉 **Email-Password Authentication**: Traditional authentication method using email and password.
+
+👉 **Menu Screen**: Displays the latest pizza products with powerful search and filter functionality.
+
+👉 **Details Screen**: Provides comprehensive information about individual pizza products, including images and key details.
+
+👉 **Order Screens**: Allows users to view their orders.
+
+👉 **Shopping Cart Screen**: Enables users to manage their shopping cart efficiently.
+
+👉 **Admin Section**: Allows admins to create, update, and delete pizza products, and update delivery status.
+
+and many more, including code architecture and reusability
+
+## <a name="quick-start">🤸 Quick Start</a>
+
+Follow these steps to set up the project locally on your machine.
+
+**Prerequisites**
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+
+**Cloning the Repository**
 
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+git clone https://github.com/Tony-kan/pizzalo.git
+cd pizzalo
