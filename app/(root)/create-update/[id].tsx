@@ -7,6 +7,7 @@ import {
   View,
   Alert,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { router, Stack, useLocalSearchParams } from "expo-router";
@@ -29,6 +30,10 @@ const CreateUpdate = () => {
   const [image, setImage] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [priceS, setPriceS] = useState("");
+  const [priceM, setPriceM] = useState("");
+  const [priceL, setPriceL] = useState("");
+  const [priceXL, setPriceXL] = useState("");
   const [errors, setErrors] = useState("");
 
   const { id: idString } = useLocalSearchParams();
@@ -52,6 +57,26 @@ const CreateUpdate = () => {
       setName(updatingProduct.name);
       setPrice(updatingProduct.price.toString());
       setImage(updatingProduct.image);
+      setPriceS(
+        updatingProduct.sizes
+          .find((size) => size.size === "S")
+          ?.price.toString() || ""
+      );
+      setPriceM(
+        updatingProduct.sizes
+          .find((size) => size.size === "M")
+          ?.price.toString() || ""
+      );
+      setPriceL(
+        updatingProduct.sizes
+          .find((size) => size.size === "L")
+          ?.price.toString() || ""
+      );
+      setPriceXL(
+        updatingProduct.sizes
+          .find((size) => size.size === "XL")
+          ?.price.toString() || ""
+      );
     }
   }, [updatingProduct]);
 
@@ -59,7 +84,7 @@ const CreateUpdate = () => {
 
   const resetFields = () => {
     setName("");
-    setPrice("");
+    // setPrice("");
   };
 
   const validateInput = () => {
@@ -68,14 +93,47 @@ const CreateUpdate = () => {
       setErrors("Name is required");
       return false;
     }
-    if (!price) {
-      setErrors("Price is required");
+    // if (!price) {
+    //   setErrors("Price is required");
+    //   return false;
+    // }
+    // if (isNaN(parseFloat(price))) {
+    //   setErrors("Price should be a number");
+    //   return false;
+    // }
+    if (!priceS) {
+      setErrors("Price (S) is required");
       return false;
     }
-    if (isNaN(parseFloat(price))) {
-      setErrors("Price should be a number");
+    if (!priceM) {
+      setErrors("Price (M) is required");
       return false;
     }
+    if (!priceL) {
+      setErrors("Price (L) is required");
+      return false;
+    }
+    if (!priceXL) {
+      setErrors("Price (XL) is required");
+      return false;
+    }
+    if (isNaN(parseFloat(priceS))) {
+      setErrors("Price (S) should be a number");
+      return false;
+    }
+    if (isNaN(parseFloat(priceM))) {
+      setErrors("Price (M) should be a number");
+      return false;
+    }
+    if (isNaN(parseFloat(priceL))) {
+      setErrors("Price (L) should be a number");
+      return false;
+    }
+    if (isNaN(parseFloat(priceXL))) {
+      setErrors("Price (XL) should be a number");
+      return false;
+    }
+
     return true;
   };
 
@@ -89,6 +147,12 @@ const CreateUpdate = () => {
   };
 
   const onCreate = () => {
+    const sizes = [
+      { size: "S", price: parseFloat(priceS) },
+      { size: "M", price: parseFloat(priceM) },
+      { size: "L", price: parseFloat(priceL) },
+      { size: "XL", price: parseFloat(priceXL) },
+    ];
     if (!validateInput()) {
       return;
     }
@@ -96,8 +160,9 @@ const CreateUpdate = () => {
     insertProduct(
       {
         name,
-        price: parseFloat(price),
+        // price: parseFloat(price),
         image,
+        sizes,
       },
       {
         onSuccess: () => {
@@ -115,13 +180,25 @@ const CreateUpdate = () => {
   };
 
   const onUpdate = async () => {
+    const sizes = [
+      { size: "S", price: parseFloat(priceS) },
+      { size: "M", price: parseFloat(priceM) },
+      { size: "L", price: parseFloat(priceL) },
+      { size: "XL", price: parseFloat(priceXL) },
+    ];
     if (!validateInput()) {
       return;
     }
     const imagePath = await uploadImage();
 
     updateProduct(
-      { id, name, price: parseFloat(price), image: imagePath },
+      {
+        id,
+        name,
+        // price: parseFloat(price),
+        image: imagePath,
+        sizes,
+      },
       {
         onSuccess: () => {
           resetFields();
@@ -185,9 +262,8 @@ const CreateUpdate = () => {
     }
   };
 
-  
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <Stack.Screen
         options={{
           headerLeft: () => (
@@ -234,23 +310,61 @@ const CreateUpdate = () => {
         style={styles.input}
       />
 
-      <Text style={styles.label}>Price ($)</Text>
+      {/* <Text style={styles.label}>Price ($)</Text>
       <TextInput
         value={price}
         onChangeText={setPrice}
         placeholder="9.99"
         style={styles.input}
         keyboardType="numeric"
+      /> */}
+
+      <Text style={styles.label}>Price (S)</Text>
+      <TextInput
+        value={priceS}
+        onChangeText={setPriceS}
+        placeholder="9.99"
+        style={styles.input}
+        keyboardType="numeric"
+      />
+
+      <Text style={styles.label}>Price (M)</Text>
+      <TextInput
+        value={priceM}
+        onChangeText={setPriceM}
+        placeholder="12.99"
+        style={styles.input}
+        keyboardType="numeric"
+      />
+
+      <Text style={styles.label}>Price (L)</Text>
+      <TextInput
+        value={priceL}
+        onChangeText={setPriceL}
+        placeholder="14.99"
+        style={styles.input}
+        keyboardType="numeric"
+      />
+
+      <Text style={styles.label}>Price (XL)</Text>
+      <TextInput
+        value={priceXL}
+        onChangeText={setPriceXL}
+        placeholder="16.99"
+        style={styles.input}
+        keyboardType="numeric"
       />
 
       <Text style={{ color: "red" }}>{errors}</Text>
-      <Button onPress={onSubmit} text={isUpdating ? "Update" : "Create"} />
-      {isUpdating && (
-        <Text onPress={confirmDelete} style={styles.textButton}>
-          Delete
-        </Text>
-      )}
-    </SafeAreaView>
+      <View>
+        <Button onPress={onSubmit} text={isUpdating ? "Update" : "Create"} />
+        {isUpdating && (
+          <Text onPress={confirmDelete} style={styles.textButton}>
+            Delete
+          </Text>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -258,7 +372,7 @@ export default CreateUpdate;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    paddingHorizontal: 10,
   },
   image: {
     width: "50%",
@@ -269,7 +383,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: "bold",
     color: Colors.light.tint,
-    marginVertical: 10,
   },
   label: {
     color: "gray",
@@ -279,7 +392,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     padding: 10,
     marginTop: 5,
-    marginBottom: 20,
+    marginBottom: 10,
     backgroundColor: "white",
     borderRadius: 5,
   },

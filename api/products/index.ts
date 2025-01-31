@@ -61,8 +61,9 @@ export const useInsertProduct = () => {
     async mutationFn(data: any) {
       const { error } = await supabase.from("products").insert({
         name: data.name,
-        price: data.price,
+        // price: data.price,
         image: data.image,
+        sizes: data.sizes,
       });
 
       if (error) throw new Error(error.message);
@@ -99,8 +100,9 @@ export const useUpdateProduct = () => {
         .from("products")
         .update({
           name: data.name,
-          price: data.price,
+          // price: data.price,
           image: data.image,
+          sizes: data.sizes,
         })
         .eq("id", data.id)
         .select()
