@@ -12,7 +12,9 @@ export const useProductList = () => {
   return useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("products").select("*");
+      const { data, error } = await supabase
+        .from("products")
+        .select("*,sizes(*)");
       if (error) throw new Error(error.message);
       return data;
     },
@@ -59,12 +61,19 @@ export const useInsertProduct = () => {
 
   return useMutation({
     async mutationFn(data: any) {
-      const { error } = await supabase.from("products").insert({
-        name: data.name,
-        // price: data.price,
-        image: data.image,
-        sizes: data.sizes,
+      // const { error } = await supabase.from("products").insert({
+      //   name: data.name,
+      //   // price: data.price,
+      //   image: data.image,
+      //   sizes: data.sizes,
+      // });
+      const { error } = await supabase.rpc("product_sizes_chain_insert", {
+        product_name: data.name,
+        product_description: data.description,
+        product_image: data.image,
+        sizes_data: data.sizes,
       });
+      console.log("submitted Data ::", JSON.stringify(data, null, 2));
 
       if (error) throw new Error(error.message);
     },

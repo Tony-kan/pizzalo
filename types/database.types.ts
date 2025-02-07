@@ -86,24 +86,27 @@ export type Database = {
       products: {
         Row: {
           created_at: string
+          description: string | null
           id: string
           image: string
           name: string
-          price: number
+          sizes: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: string
           image: string
           name: string
-          price: number
+          sizes?: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: string
           image?: string
           name?: string
-          price?: number
+          sizes?: string
         }
         Relationships: []
       }
@@ -180,7 +183,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      product_sizes_chain_insert: {
+        Args: {
+          product_name: string
+          product_description: string
+          product_image: string
+          sizes_data: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

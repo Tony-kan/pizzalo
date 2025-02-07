@@ -29,7 +29,7 @@ import { decode } from "base64-arraybuffer";
 const CreateUpdate = () => {
   const [image, setImage] = useState<string | null>(null);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
   const [priceS, setPriceS] = useState("");
   const [priceM, setPriceM] = useState("");
   const [priceL, setPriceL] = useState("");
@@ -55,7 +55,7 @@ const CreateUpdate = () => {
   useEffect(() => {
     if (updatingProduct) {
       setName(updatingProduct.name);
-      setPrice(updatingProduct.price.toString());
+      // setPrice(updatingProduct.price.toString());
       setImage(updatingProduct.image);
       setPriceS(
         updatingProduct.sizes
@@ -161,6 +161,7 @@ const CreateUpdate = () => {
       {
         name,
         // price: parseFloat(price),
+        description,
         image,
         sizes,
       },
@@ -169,6 +170,7 @@ const CreateUpdate = () => {
           resetFields();
           router.back();
           console.warn("Product created");
+          Alert.alert("Product created");
         },
       }
     );
@@ -196,6 +198,7 @@ const CreateUpdate = () => {
         id,
         name,
         // price: parseFloat(price),
+        description,
         image: imagePath,
         sizes,
       },
@@ -204,6 +207,7 @@ const CreateUpdate = () => {
           resetFields();
           router.back();
           console.warn("Updating pizza");
+          Alert.alert("Product updated");
         },
       }
     );
@@ -293,14 +297,14 @@ const CreateUpdate = () => {
           ),
         }}
       />
-      <Image
-        source={{ uri: image || defaultPizzaImage }}
-        style={styles.image}
-      />
+      <Pressable onPress={pickImage}>
+        <Image
+          source={{ uri: image || defaultPizzaImage }}
+          style={styles.image}
+        />
 
-      <Text onPress={pickImage} style={styles.textButton}>
-        Select Image
-      </Text>
+        <Text style={styles.textButton}>Select Image</Text>
+      </Pressable>
 
       <Text style={styles.label}>Name</Text>
       <TextInput

@@ -21,8 +21,7 @@ export type ProductProps = {
   id: string;
   image: string | null;
   name: string;
-  price: number;
-  size?: PizzaSize;
+  description: string | null;
   sizes?: sizes[];
 };
 

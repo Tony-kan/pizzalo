@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Product } from "@/types/types";
+// import { Product } from "@/types/types";
+import { ProductProps } from "@/types/types";
 import { Colors, defaultPizzaImage } from "@/constants";
 import { router } from "expo-router";
 
 type ProductListItemProps = {
-  product: Product;
+  product: ProductProps;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {
@@ -23,7 +24,9 @@ export const ProductListItem = ({ product }: ProductListItemProps) => {
         style={styles.image}
       />
       <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.price}>{`$ ${product.price.toFixed(2)}`}</Text>
+      <Text style={styles.price}>{`$ ${
+        product.sizes ? product.sizes[1]?.price.toFixed(2) : "N/A"
+      }`}</Text>
     </Pressable>
   );
 };
